@@ -1,0 +1,23 @@
+﻿@inherits FluxorLayout
+<TelerikRootComponent>
+	<div class="sidebar">
+		<NavMenu />
+	</div>
+
+	<div class="main">
+		<div class="top-row px-4">
+			<Logout />
+		</div>
+
+		<div class="content px-4">
+			@Body
+		</div>
+	</div>
+</TelerikRootComponent>
+
+@code {
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+	}
+}

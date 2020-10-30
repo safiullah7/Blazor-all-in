@@ -1,0 +1,15 @@
+﻿@inject AuthenticationStateProvider authenticationStateProvider
+@inject NavigationManager navigationManager
+
+<AuthorizeView>
+	<span>Welcome @context.User.FindFirst("FirstName").Value | <TelerikButton Class="mr-2" OnClick="LogoutUser">Logout</TelerikButton></span>
+</AuthorizeView>
+
+@code {
+	async Task LogoutUser()
+	{
+		var localAuthenticationStateProvider = (LocalAuthenticationStateProvider)authenticationStateProvider;
+		await localAuthenticationStateProvider.LogoutUserAsync();
+		navigationManager.NavigateTo("/auth");
+	}
+}

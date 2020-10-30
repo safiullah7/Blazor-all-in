@@ -1,0 +1,70 @@
+﻿@layout AuthLayout
+@using BlazorHandsOn.Shared.Models
+
+@inject AuthenticationService authService
+@inject NavigationManager navManager
+
+<div class="row">
+	<div class="col-12">
+		<h2>Create a new account</h2>
+		<hr />
+		<EditForm Model="registerRequest" OnValidSubmit="RegisterUser">
+			<AlertMessage Message="@message" MessageType="@messageType" />
+			<DataAnnotationsValidator />
+			<ValidationSummary />
+
+			<div class="form-group">
+				<label>First Name</label>
+				<TelerikTextBox Class="form-control" @bind-Value="registerRequest.FirstName" PlaceHolder="Enter your first name"></TelerikTextBox>
+			</div>
+
+			<div class="form-group">
+				<label>Last Name</label>
+				<TelerikTextBox Class="form-control" @bind-Value="registerRequest.LastName" PlaceHolder="Enter your last name"></TelerikTextBox>
+			</div>
+
+			<div class="form-group">
+				<label>Email</label>
+				<TelerikTextBox Class="form-control" @bind-Value="registerRequest.Email" PlaceHolder="Enter your Email"></TelerikTextBox>
+			</div>
+
+			<div class="form-group">
+				<label>Password</label>
+				<TelerikTextBox Class="form-control" @bind-Value="registerRequest.Password" Password="true" PlaceHolder="Enter your password"></TelerikTextBox>
+			</div>
+			<div class="form-group">
+				<label>Confirm Password</label>
+				<TelerikTextBox Class="form-control" @bind-Value="registerRequest.ConfirmPassword" Password="true" PlaceHolder="Confirm your password"></TelerikTextBox>
+			</div>
+
+			<TelerikButton Class="reg-button-tab" Primary="true" Enabled="!isBusy">Register</TelerikButton>
+		</EditForm>
+	</div>
+</div>
+
+
+@code {
+	RegisterRequest registerRequest = new RegisterRequest();
+	bool isBusy = false;
+	string message = string.Empty;
+	AlertTypes messageType = AlertTypes.Success;
+
+	public async Task RegisterUser()
+	{
+		isBusy = true;
+
+		var response = await authService.RegisterUserAsync(registerRequest);
+
+		if (response.IsSuccess)
+		{
+			message = response.Message;
+			messageType = AlertTypes.Success;
+		}
+		else
+		{
+			message = response.Errors.FirstOrDefault() ?? response.Message;
+			messageType = AlertTypes.Success;
+		}
+		isBusy = false;
+	}
+}

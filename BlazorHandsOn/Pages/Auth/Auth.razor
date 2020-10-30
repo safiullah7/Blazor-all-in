@@ -1,0 +1,34 @@
+﻿@layout AuthLayout
+@page "/auth"
+
+<div class="middle-box">
+	<div class="container-fluid">
+		
+		<div class="row mb-2">
+			<div class="col-6">
+				<TelerikButton Class="reg-button-tab" OnClick="() => setState(true)" Primary="@registerState">Register</TelerikButton>
+			</div>
+			<div class="col-6">
+				<TelerikButton Class="login-button-tab" OnClick="() => setState(false)" Primary="@(!registerState)">Login</TelerikButton>
+			</div>
+		</div>
+	
+	</div>
+	@if (registerState)
+	{
+		<Register />
+	}
+	@if (!registerState)
+	{
+		<Login />
+	}
+</div>
+
+@code {
+	bool registerState = false;
+
+	void setState(bool value)
+	{
+		registerState = value;
+	}
+}

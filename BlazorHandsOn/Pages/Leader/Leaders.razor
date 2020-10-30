@@ -1,0 +1,37 @@
+﻿@inherits FluxorComponent
+@page "/leaders"
+
+@inject IState<LeadersState> LeadersState
+@inject StateFacade Facade
+
+<h3>Leaders</h3>
+@if (LeadersState.Value.IsLoading)
+{
+	<div class="d-flex flex-row justify-content-center">
+		<div class="spinner-border" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+}
+else if (LeadersState.Value.HasCurrentErrors)
+{
+	<span>Whoops! Looks like an issue occurred loading todos :(</span>
+}
+else if(!(LeadersState.Value.Leaders is null) && LeadersState.Value.Leaders.Any())
+{
+	@foreach (var leader in LeadersState.Value.Leaders)
+	{
+		<p>Leader name: @leader.Name</p>
+	}
+}
+
+@code {
+	protected override void OnInitialized()
+	{
+		if (LeadersState.Value.Leaders is null)
+		{
+			Facade.LoadLeaders();
+		}
+		base.OnInitialized();
+	}
+}

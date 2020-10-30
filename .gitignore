@@ -1,0 +1,5 @@
+.vs
+BlazorHandsOn/bin
+BlazorHandsOn/obj
+BlazorHandsOn.Shared/bin
+BlazorHandsOn.Shared/obj
